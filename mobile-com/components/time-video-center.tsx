@@ -1,20 +1,23 @@
-import { View, StyleSheet,Image } from "react-native"
-import {Video} from 'expo-av'
-export default function TimeVideoCenter({isPlaying = false}: {isPlaying: boolean}) {
+import { View, StyleSheet } from "react-native";
+import { Video } from "expo-av";
+
+export default function TimeVideoCenter({ isPlaying = true }: { isPlaying: boolean }) {
   return (
     <View style={styles.container}>
-        {isPlaying ? (
-            <Video
-                source={{uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-                style={styles.media}
-                shouldPlay
-            />
-        ) : (
-            <Image
-                source={require('@/assets/images/home/timer.png')}
-                style={styles.media}
-            />
-        )}
+      <Video
+        source={require('@/assets/images/home/timer-video.mp4')}
+        style={styles.media}
+        shouldPlay={isPlaying}
+        isLooping
+        resizeMode="cover"
+
+        // 未播放时显示封面
+        usePoster={!isPlaying}
+        posterSource={require('@/assets/images/home/timer.png')}
+
+        onLoad={() => console.log('Video loaded')}
+        onError={(error) => console.log('Video error:', error)}
+      />
     </View>
   );
 }
@@ -22,12 +25,12 @@ export default function TimeVideoCenter({isPlaying = false}: {isPlaying: boolean
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#100D0A",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#100D0A",
   },
   media: {
     width: 213,
-    height: 334
+    height: 334,
   }
-})
+});

@@ -25,6 +25,9 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       "expo-router",
       [
@@ -39,12 +42,14 @@
           }
         }
       ],
-      "expo-font",
-       {
-        "fonts": [
-          "./assets/fonts/HoltwoodOneSC-Regular.ttf"
-        ]
-      }
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/HoltwoodOneSC-Regular.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
