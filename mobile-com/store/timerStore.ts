@@ -1,26 +1,34 @@
 import { create } from "zustand"
 
-interface TimerState {
-  isRunning: boolean//time is running
-  taskName: string | null//current task name
+type TimerState = {
+  isPlaying: boolean
+  taskId: number | null
+  start: (taskId:number)=>void
+  stop: ()=>void
 
-  startTask: (task: string) => void //start task
-  stopTask: () => void//stop task    
 }
 
-export const useTimerStore = create<TimerState>((set) => ({
-  isRunning: false,
-  taskName: null,
+export const useTimerStore = create<TimerState>((set)=>({
 
-  startTask: (task) =>
-    set({
-      isRunning: true,
-      taskName: task
-    }),
+  isPlaying:false,
+  taskId:null,
 
-  stopTask: () =>
+  start:(taskId)=>{
+
     set({
-      isRunning: false,
-      taskName: null
+      isPlaying:true,
+      taskId
     })
+
+  },
+
+  stop:()=>{
+
+    set({
+      isPlaying:false,
+      taskId:null
+    })
+
+  }
+
 }))

@@ -1,6 +1,7 @@
 import { Modal, View, Text, Pressable, StyleSheet, Button } from "react-native";
-// import { useTimerStore } from "@/store/timerStore"
-
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { Link } from 'expo-router';
 type Props = {
     visible: boolean;
     onSelect(task: string): void;
@@ -17,13 +18,9 @@ export default function TaskSelect({ visible, onSelect, onClose }: Props) {
                         <Text style={styles.task}>Study</Text>
                     </Pressable>
 
-                    <Pressable onPress={() => onSelect("Coding")}>
-                        <Text style={styles.task}>Coding</Text>
-                    </Pressable>
-
-                    <Pressable onPress={() => onSelect("Reading")}>
-                        <Text style={styles.task}>Reading</Text>
-                    </Pressable>
+                    <Link href="/taskList" dismissTo style={styles.link}>
+                            <ThemedText type="link">Go to task list</ThemedText>
+                          </Link>
 
                     <Button title="Cancel" onPress={onClose} />
                 </View>
@@ -55,5 +52,9 @@ const styles = StyleSheet.create({
   task: {
     fontSize: 16,
     paddingVertical: 10,
+  },
+  link: {
+    marginTop: 15,
+    paddingVertical: 15,
   },
 });

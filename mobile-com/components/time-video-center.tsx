@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Video } from "expo-av";
+import { Video,ResizeMode } from "expo-av";
 
 export default function TimeVideoCenter({ isPlaying = true }: { isPlaying: boolean }) {
   return (
@@ -9,7 +9,7 @@ export default function TimeVideoCenter({ isPlaying = true }: { isPlaying: boole
         style={styles.media}
         shouldPlay={isPlaying}
         isLooping
-        resizeMode="cover"
+        resizeMode={ResizeMode.COVER}
 
         // 未播放时显示封面
         usePoster={!isPlaying}
