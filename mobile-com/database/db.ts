@@ -16,15 +16,27 @@ export async function initDB() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       task_id INTEGER,
       duration INTEGER,
-      created_at TEXT
+      created_at TEXT,
+      day TEXT
     );
   `);
+  try {
+    await db.execAsync(`ALTER TABLE timer_records ADD COLUMN day TEXT;`);
+  } catch (e) {}
 
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS coins(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      amount INTEGER
+      amount INTEGER,
+      available_time INTEGER
     );
   `);
+  try {
+    await db.execAsync(`ALTER TABLE coins ADD COLUMN available_time INTEGER;`);
+  } catch (e) {}
+
+  await db.runAsync(
+    "INSERT OR IGNORE INTO coins(id, amount, available_time) VALUES (1, 0, 0)"
+  );
 
 }

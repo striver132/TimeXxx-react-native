@@ -4,23 +4,27 @@ import { useState } from 'react';
 import TimeCornTop from '@/components/time-corn-top';
 import TimeVideoCenter from '@/components/time-video-center';
 import TaskSelect from '@/components/task-select';
+import { type Task } from '@/database/taskRepo';
+import { useTimerStore } from '@/store/timerStore';
 
 export default function HomeScreen() {
 
-  const [isPlaying, setIsPlaying] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const isPlaying = useTimerStore((s) => s.isPlaying);
+  const start = useTimerStore((s) => s.start);
+  const stop = useTimerStore((s) => s.stop);
    const handleStartPress = () => {
     if (!isPlaying) {
       setModalVisible(true);
     } else {
-      setIsPlaying(false);
+      stop();
     }
   };
 
-  const handleSelectTask = (task: string) => {
+  const handleSelectTask = (task: Task) => {
     console.log("Selected:", task);
     setModalVisible(false);
-    setIsPlaying(true);
+    start(task.id);
   };
 
   return (
@@ -53,5 +57,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#100D0A',
-  }
+  },
 });
