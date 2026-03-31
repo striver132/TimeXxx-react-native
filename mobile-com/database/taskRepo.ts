@@ -3,6 +3,7 @@ import { db } from "./db";
 export type Task = {
   id: number;
   name: string;
+  completed?: number;
 };
 
 export type TimerRecord = {
@@ -27,7 +28,7 @@ export type TaskDayTotalDurationRow = {
 export async function getTasks(): Promise<Task[]> {
 
   const rows = await db.getAllAsync<Task>(
-    "SELECT id, name FROM tasks ORDER BY id DESC"
+    "SELECT id, name, completed FROM tasks ORDER BY id DESC"
   );
 
   return rows;
@@ -36,14 +37,22 @@ export async function getTasks(): Promise<Task[]> {
 export async function createTask(name: string): Promise<Task> {
 
   const result = await db.runAsync(
-    "INSERT INTO tasks(name) VALUES (?)",
+    "INSERT INTO tasks(name, completed) VALUES (?, 0)",
     [name]
   );
 
   return {
     id: Number(result.lastInsertRowId),
     name,
+    completed: 0,
   };
+}
+ 
+export async function updateTaskCompleted(taskId: number, completed: boolean) {
+  await db.runAsync(
+    "UPDATE tasks SET completed = ? WHERE id = ?",
+    [completed ? 1 : 0, taskId]
+  );
 }
 
 export async function createTimerRecord(taskId: number, duration: number): Promise<TimerRecord> {

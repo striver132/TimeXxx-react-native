@@ -7,9 +7,13 @@ export async function initDB() {
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS tasks(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT
+      name TEXT,
+      completed INTEGER DEFAULT 0
     );
   `);
+  try {
+    await db.execAsync(`ALTER TABLE tasks ADD COLUMN completed INTEGER DEFAULT 0;`);
+  } catch (e) {}
 
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS timer_records(
